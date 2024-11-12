@@ -3,43 +3,57 @@ package aed;
 import java.util.ArrayList;
 
 public class BestEffort {
-    //Completar atributos privados
+    //DobleColaOrdenada
+        //ordenadaPorAntiguedad
+        //odenadaPorRdituable
+    //stats
+        //colaSuperavit
+        //arrayNodos para colaSuperavit
+        //cantidadDespachados
+        //sumaDespachados
+        //mayoresPerdidas : Array<int> 
+        //mayoresGanancias : Array<int>
+        //ganancias : Array<int> |C|
+        //peridas : Array<int> |C|
 
     public BestEffort(int cantCiudades, Traslado[] traslados){
-        // Implementar
+        //crear DobleCola
+        //crear Stats
     }
 
     public void registrarTraslados(Traslado[] traslados){
-        // Implementar
+        // for t en traslados
+            //dobleCola.encolar(t)
     }
 
     public int[] despacharMasRedituables(int n){
-        // Implementar
+        //dobleCola.obtener(n, redituable)
+        //stats.actualizar
         return null;
     }
 
     public int[] despacharMasAntiguos(int n){
-        // Implementar
+        // Implementa
         return null;
     }
 
     public int ciudadConMayorSuperavit(){
-        // Implementar
+        // stat.mayorSuperavit
         return 0;
     }
 
     public ArrayList<Integer> ciudadesConMayorGanancia(){
-        // Implementar
+        // resturn stat.mayoresPerdidas
         return null;
     }
 
     public ArrayList<Integer> ciudadesConMayorPerdida(){
-        // Implementar
+        // return stats.mayoresGanancias
         return null;
     }
 
     public int gananciaPromedioPorTraslado(){
-        // Implementar
+        // return stats.gananciaPromeido
         return 0;
     }
     
