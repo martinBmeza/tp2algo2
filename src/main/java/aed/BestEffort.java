@@ -6,6 +6,7 @@ public class BestEffort {
     //DobleColaOrdenada
         //ordenadaPorAntiguedad
         //odenadaPorRdituable
+
     //stats
         //colaSuperavit
         //arrayNodos para colaSuperavit
@@ -15,10 +16,12 @@ public class BestEffort {
         //mayoresGanancias : Array<int>
         //ganancias : Array<int> |C|
         //peridas : Array<int> |C|
+    private Stats stats;
 
     public BestEffort(int cantCiudades, Traslado[] traslados){
         //crear DobleCola
         //crear Stats
+        stats = new Stats(cantCiudades);
     }
 
     public void registrarTraslados(Traslado[] traslados){
@@ -43,13 +46,11 @@ public class BestEffort {
     }
 
     public ArrayList<Integer> ciudadesConMayorGanancia(){
-        // resturn stat.mayoresPerdidas
-        return null;
+        return stats.getCiudadesConMayorGanancias();
     }
 
     public ArrayList<Integer> ciudadesConMayorPerdida(){
-        // return stats.mayoresGanancias
-        return null;
+        return stats.getCiudadesConMayorPerdida();
     }
 
     public int gananciaPromedioPorTraslado(){
