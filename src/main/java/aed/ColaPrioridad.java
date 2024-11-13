@@ -1,10 +1,10 @@
 package aed;
 
-public class ColaPrioridad {
+public class ColaPrioridad { //conReodenamiento 
 
     public  ColaPrioridad(){
     }
-    public ColaPrioridad colaPrioridadDesdeSecuencia(){
+    public ColaPrioridad colaPrioridadDesdeSecuencia(ArrayList<Nodo> lista){
         return null;
     }
     public void encolar(){
@@ -19,6 +19,9 @@ public class ColaPrioridad {
     }
     public void cambiarPrioridad(){
         //nose si es necesario implementar
+    }
+    public void eliminarYReodenar(Nodo nodo){
+        
     }
     public int tamano(){
         //nose si es necesario implementar

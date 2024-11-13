@@ -7,8 +7,9 @@ public class Stats {
     private ArrayList<Integer> mayoresPerdida; // id s de mayor perdida
     private ArrayList<Integer> ganancias;
     private ArrayList<Integer> perdidas;
-    // ColaSuperavit
-    // array de nodos
+    private ColaPrioridad superavits;
+    private ArrayList<Nodo> nodosCiudades;
+    
 
     public Stats(Integer C) {
         this.mayoresGanancia = new ArrayList<>();
@@ -18,7 +19,9 @@ public class Stats {
         for (int i = 0; i < C; i++) {
             this.ganancias.add(0);
             perdidas.add(0);
+            nodosCiudades.add(new Nodo(0))
         }
+        superavits.colaPrioridadDesdeSecuencia(nodosCiudades);
     }
 
     private void actualizarMayores(ArrayList<Integer> lista, ArrayList<Integer> mayores, int id, int val) {
@@ -36,8 +39,25 @@ public class Stats {
     }
 
     public void add(Traslado t) {
+        //actualizar perdidas y ganancias
         actualizarMayores(ganancias, mayoresGanancia, t.origen, t.gananciaNeta);
         actualizarMayores(perdidas, mayoresPerdida, t.destino, t.gananciaNeta);
+        //actualizar superavits
+        //sumar en origen
+        int v;Nodo nodo;
+        Nodo nodoO = nodosCiudades.get(t.origen);
+        nodoO.val += t.gananciaNeta;
+        nodosCiudades.set(t.origen, nodoO);
+        //restar en destino
+        Nodo nodoD = nodosCiudades.get(t.destino);
+        nodoD.val += t.gananciaNeta;
+        nodosCiudades.set(t.destino, nodoD);//revisar si podia ser negativo
+        //eliminarlos de superavits
+        superavits.eliminarYReodenar(NodoO)
+        superavits.eliminarYReodenar(NodoD);
+        //agregarlos de vuelta
+        superavits.encolar(NodoO)
+        superavits.encolar(NodoD);
     }
 
     public ArrayList<Integer> getCiudadesConMayorGanancias(){
