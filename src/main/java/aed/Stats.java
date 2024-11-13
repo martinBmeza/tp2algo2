@@ -67,9 +67,4 @@ public class Stats {
     public ArrayList<Integer> getCiudadesConMayorPerdida(){
         return mayoresPerdida;
     }
-
-
-
-
-
 }
