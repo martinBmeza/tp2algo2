@@ -9,6 +9,8 @@ public class Stats {
     private ArrayList<Integer> perdidas;
     private ColaPrioridad superavits;
     private ArrayList<Nodo> nodosCiudades;
+    private Integer cantidadDespachados;
+    private Integer sumaDespachados;
     
 
     public Stats(Integer C) {
@@ -58,6 +60,10 @@ public class Stats {
         //agregarlos de vuelta
         superavits.encolar(NodoO)
         superavits.encolar(NodoD);
+        //actualizar suma y cantidad despacho
+        cantidadDespachados++;
+        sumaDespachados += t.gananciaNeta;
+        
     }
 
     public ArrayList<Integer> getCiudadesConMayorGanancias(){
@@ -66,5 +72,8 @@ public class Stats {
 
     public ArrayList<Integer> getCiudadesConMayorPerdida(){
         return mayoresPerdida;
+    }
+    public Integer getPromedio(){
+        return sumaDespachados / cantidadDespachados;
     }
 }

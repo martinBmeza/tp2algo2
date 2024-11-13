@@ -54,8 +54,7 @@ public class BestEffort {
     }
 
     public int gananciaPromedioPorTraslado(){
-        // return stats.gananciaPromeido
-        return 0;
+        return stat.getPromedio();
     }
     
 }
