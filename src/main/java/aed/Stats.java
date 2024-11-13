@@ -28,9 +28,9 @@ public class Stats {
         int g = lista.get(id);
         lista.set(id, g + val);
         if(mayores.isEmpty()){
-            mayores.add(id);return;
+            mayores.add(id);
         }
-        if (mayores.get(0) < lista.get(id)) {
+        else if (mayores.get(0) < lista.get(id)) {
             mayores.clear();
             mayores.add(id);
         } else if (mayores.get(0) == lista.get(id)) {
