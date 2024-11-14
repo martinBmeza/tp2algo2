@@ -26,6 +26,24 @@ public class Ciudad implements Comparable<Ciudad> {
         return id;
     }
 
+    public int getGanancia(){
+        return ganancia;
+    }
+
+    public int getPerdida(){
+        return perdida;
+    }
+
+    public void addToGanancia(int v){
+        ganancia+=v;
+        superavit+=v;
+    }
+
+    public void addToPerdida(int v){
+        perdida+=v;
+        superavit-=v;
+    }
+
     @Override
     public int compareTo(Ciudad otra) {
         int res = Integer.compare(this.superavit, otra.superavit);

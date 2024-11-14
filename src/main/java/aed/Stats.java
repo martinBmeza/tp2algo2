@@ -5,60 +5,64 @@ import java.util.ArrayList;
 public class Stats {
     ArrayList<Integer> mayoresGanancia; // id s de mayor ganancia
     ArrayList<Integer> mayoresPerdida; // id s de mayor perdida
-    ArrayList<Integer> ganancias;
-    ArrayList<Integer> perdidas;
     ColaPrioridadCiudades superavits;
     ArrayList<Ciudad> ciudades;
     Integer cantidadDespachados;
     Integer sumaDespachados;
 
     public Stats(Integer cantCiudades) {
+        cantidadDespachados = 0;
+        sumaDespachados = 0;
         mayoresGanancia = new ArrayList<>();
         mayoresPerdida = new ArrayList<>();
-        ganancias = new ArrayList<>();
-        perdidas = new ArrayList<>();
+        ciudades = new ArrayList<>();
         for (int i = 0; i < cantCiudades; i++) {
-            ganancias.add(0);
-            perdidas.add(0);
             ciudades.add(new Ciudad(i));
         }
         superavits = new ColaPrioridadCiudades(ciudades);
     }
 
-    private void actualizarMayores(ArrayList<Integer> lista, ArrayList<Integer> mayores, int id, int val) {
-        int g = lista.get(id);
-        lista.set(id, g + val);
-        if(mayores.isEmpty()){
-            mayores.add(id);
-        }
-        else if (mayores.get(0) < lista.get(id)) {
-            mayores.clear();
-            mayores.add(id);
-        } else if (mayores.get(0) == lista.get(id)) {
-            mayores.add(id);
-        } // si es menor no hago nada
-    }
 
     public void add(Traslado t) {
         //actualizar perdidas y ganancias
-        actualizarMayores(ganancias, mayoresGanancia, t.origen, t.gananciaNeta);
-        actualizarMayores(perdidas, mayoresPerdida, t.destino, t.gananciaNeta);
+        Integer idO = t.origen;;
+        ciudades.get(idO).addToGanancia(t.gananciaNeta);
+        Integer idD = t.destino;
+        ciudades.get(idD).addToPerdida(t.gananciaNeta);
+
+        
+        int g = this.ciudades.get(idO).getGanancia();
+        if(mayoresGanancia.isEmpty()){
+            mayoresGanancia.add(idO);
+        }
+        else if (mayoresGanancia.get(0) < g) {
+            mayoresGanancia.clear();
+            mayoresGanancia.add(idO);
+        } else if (mayoresGanancia.get(0) == g) {
+            mayoresGanancia.add(idO);
+        } // si es menor no hago nada
+
+        int p = this.ciudades.get(idD).getPerdida();
+        if(mayoresPerdida.isEmpty()){
+            mayoresPerdida.add(idD);
+        }
+        else if (mayoresPerdida.get(0) < p) {
+            mayoresPerdida.clear();
+            mayoresPerdida.add(idD);
+        } else if (mayoresPerdida.get(0) == p) {
+            mayoresPerdida.add(idD);
+        } // si es menor no hago nada
+
+
         //actualizar superavits
         //sumar en origen
-        int v;Nodo nodo;
-        Nodo nodoO = nodosCiudades.get(t.origen);
-        nodoO.val += t.gananciaNeta;
-        nodosCiudades.set(t.origen, nodoO);
-        //restar en destino
-        Nodo nodoD = nodosCiudades.get(t.destino);
-        nodoD.val += t.gananciaNeta;
-        nodosCiudades.set(t.destino, nodoD);//revisar si podia ser negativo
+        Ciudad ciudadO = ciudades.get(t.origen);
         //eliminarlos de superavits
-        superavits.eliminarYReodenar(NodoO)
-        superavits.eliminarYReodenar(NodoD);
-        //agregarlos de vuelta
-        superavits.encolar(NodoO)
-        superavits.encolar(NodoD);
+        superavits.borrar_ciudad(ciudadO);
+        superavits.encolar(ciudadO);
+        Ciudad ciduadD = ciudades.get(t.destino);
+        superavits.borrar_ciudad(ciduadD);
+        superavits.encolar(ciduadD);
         //actualizar suma y cantidad despacho
         cantidadDespachados++;
         sumaDespachados += t.gananciaNeta;
