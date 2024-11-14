@@ -69,6 +69,10 @@ public class Stats {
         
     }
 
+    public int getMayorSuperavit(){
+        return superavits.proximo().value.getID();
+    }
+
     public ArrayList<Integer> getCiudadesConMayorGanancias(){
         return mayoresGanancia;
     }

@@ -43,7 +43,7 @@ public class BestEffortTests {
 
     @Test
     void despachar_con_mas_ganancia_de_a_uno(){
-        oldBestEffort sis = new oldBestEffort(this.cantCiudades, this.listaTraslados);
+        BestEffort sis = new BestEffort(this.cantCiudades, this.listaTraslados);
 
         sis.despacharMasRedituables(1);
         
@@ -59,7 +59,7 @@ public class BestEffortTests {
     
     @Test
     void despachar_con_mas_ganancia_de_a_varios(){
-        oldBestEffort sis = new oldBestEffort(this.cantCiudades, this.listaTraslados);
+        BestEffort sis = new BestEffort(this.cantCiudades, this.listaTraslados);
 
         sis.despacharMasRedituables(3);
 
@@ -75,7 +75,7 @@ public class BestEffortTests {
     
     @Test
     void despachar_mas_viejo_de_a_uno(){
-        oldBestEffort sis = new oldBestEffort(this.cantCiudades, this.listaTraslados);
+        BestEffort sis = new BestEffort(this.cantCiudades, this.listaTraslados);
         
         sis.despacharMasAntiguos(1);
 
@@ -93,7 +93,7 @@ public class BestEffortTests {
     
     @Test
     void despachar_mas_viejo_de_a_varios(){
-        oldBestEffort sis = new oldBestEffort(this.cantCiudades, this.listaTraslados);
+        BestEffort sis = new BestEffort(this.cantCiudades, this.listaTraslados);
         
         sis.despacharMasAntiguos(3);
         assertSetEquals(new ArrayList<>(Arrays.asList(0, 4)), sis.ciudadesConMayorGanancia());
@@ -107,7 +107,7 @@ public class BestEffortTests {
     
     @Test
     void despachar_mixtos(){
-        oldBestEffort sis = new oldBestEffort(this.cantCiudades, this.listaTraslados);
+        BestEffort sis = new BestEffort(this.cantCiudades, this.listaTraslados);
 
         sis.despacharMasRedituables(3);
         sis.despacharMasAntiguos(3);
@@ -122,7 +122,7 @@ public class BestEffortTests {
     
     @Test
     void agregar_traslados(){
-        oldBestEffort sis = new oldBestEffort(this.cantCiudades, this.listaTraslados);
+        BestEffort sis = new BestEffort(this.cantCiudades, this.listaTraslados);
 
         Traslado[] nuevos = new Traslado[] {
             new Traslado(8, 0, 1, 10001, 5),
@@ -146,7 +146,7 @@ public class BestEffortTests {
     
     @Test
     void promedio_por_traslado(){
-        oldBestEffort sis = new oldBestEffort(this.cantCiudades, this.listaTraslados);
+        BestEffort sis = new BestEffort(this.cantCiudades, this.listaTraslados);
 
         sis.despacharMasAntiguos(3);
         assertEquals(333, sis.gananciaPromedioPorTraslado());
@@ -181,7 +181,7 @@ public class BestEffortTests {
             new Traslado(4, 1, 2, 30, 2),
             new Traslado(5, 2, 1, 90, 1)
         };
-        oldBestEffort sis = new oldBestEffort(this.cantCiudades, nuevos);
+        BestEffort sis = new BestEffort(this.cantCiudades, nuevos);
 
         sis.despacharMasAntiguos(1);
         assertEquals(2, sis.ciudadConMayorSuperavit());
