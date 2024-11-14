@@ -83,6 +83,30 @@ public class DevTests {
     }
 
     @Test
+    void basi_cola_prioridad(){
+        Ciudad[] ciudades = new Ciudad[] {
+            new Ciudad(0, 100, 200, 100),
+            new Ciudad(1, 200, 100, 100),
+            new Ciudad(2, 300, 300, 100),
+            new Ciudad(3, 50, 400, 100),
+        };
+        ArrayList<Ciudad> ciudades_seq = new ArrayList<Ciudad>();
+        for (Ciudad c : ciudades){
+            ciudades_seq.add(c);
+        } 
+        ColaPrioridadCiudades Cola = new ColaPrioridadCiudades(ciudades_seq);
+        assertNotNull(Cola);
+        assertEquals(4, Cola.nelems());
+        assertEquals(2, Cola.proximo().value.getID());
+        Cola.borrar_ciudad(ciudades[3]);
+        //ciudades[1].addToGanancia(1000);
+        //assertEquals(1200, ciudades[1].getSuperavit());
+        //assertEquals(true, ciudades[1].compareTo(ciudades[2])>0);
+        Cola.encolar(new Ciudad(3, 1300, 300, 100));
+        assertEquals(3, Cola.desencolar().getID());
+    }
+
+    @Test
     void CrearColaPrioridadCiudades(){
         Ciudad[] ciudades = new Ciudad[] {
             new Ciudad(0, 100, 200, 100),

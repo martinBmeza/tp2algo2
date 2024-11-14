@@ -50,10 +50,25 @@ public class StatsTest {
         
         assertSetEquals(new ArrayList<>(Arrays.asList(0)), sis.getCiudadesConMayorGanancias());
         assertSetEquals(new ArrayList<>(Arrays.asList(1)), sis.getCiudadesConMayorPerdida());
+        assertEquals(100, sis.getPromedio());
+        assertEquals(0, sis.getMayorSuperavit());
 
         sis.add(listaTraslados[6]);
         assertSetEquals(new ArrayList<>(Arrays.asList(6)), sis.getCiudadesConMayorGanancias());
         assertSetEquals(new ArrayList<>(Arrays.asList(3)), sis.getCiudadesConMayorPerdida());
+    }
 
+    @Test
+    void add_test(){
+        Stats sis = new Stats(this.cantCiudades);
+
+        sis.add(listaTraslados[0]);
+        
+        assertSetEquals(new ArrayList<>(Arrays.asList(0)), sis.getCiudadesConMayorGanancias());
+        assertSetEquals(new ArrayList<>(Arrays.asList(1)), sis.getCiudadesConMayorPerdida());
+
+        sis.add(listaTraslados[6]);
+        assertSetEquals(new ArrayList<>(Arrays.asList(6)), sis.getCiudadesConMayorGanancias());
+        assertSetEquals(new ArrayList<>(Arrays.asList(3)), sis.getCiudadesConMayorPerdida());
     }
 }

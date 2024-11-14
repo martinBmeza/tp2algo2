@@ -33,6 +33,9 @@ public class Ciudad implements Comparable<Ciudad> {
     public int getPerdida(){
         return perdida;
     }
+    public int getSuperavit(){
+        return superavit;
+    }
 
     public void addToGanancia(int v){
         ganancia+=v;
