@@ -48,15 +48,23 @@ public class DevTests {
     @Test
     void encolarDesencolarColaDoble(){
         // CdeP
-        ColaDoble<Integer> Cola = new ColaDoble<Integer>();
-        Cola.encolar(1, 10);
-        Cola.encolar(3, 30);
-        Cola.encolar(2, 20);
-        Cola.encolar(0, 0);
-        assertEquals(4, Cola.nelems());
-        assertEquals(3, Cola.desencolarAntiguedad());
-        assertEquals(20, Cola.desencolarRedito());
-        assertEquals(2, Cola.nelems());
+        ColaDoble Cola = new ColaDoble();
+        Traslado[] nuevos = new Traslado[] {
+            new Traslado(8, 1, 2, 1452, 5),
+            new Traslado(9, 1, 2, 334, 2),
+            new Traslado(10, 1, 2, 24, 3),
+            new Traslado(11, 1, 2, 333, 4),
+            new Traslado(12, 2, 1, 9000, 1)
+        };
+        for (Traslado t : nuevos){
+            Cola.encolar(t);
+        }
+        assertEquals(5, Cola.nelems());
+        assertEquals(5, Cola.desencolarAntiguedad().timestamp);
+        assertEquals(9000, Cola.desencolarRedito().gananciaNeta);
+        assertEquals(3, Cola.nelems());
+
+        
     }
 
 

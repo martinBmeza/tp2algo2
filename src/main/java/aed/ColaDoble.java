@@ -8,22 +8,24 @@ import java.util.ArrayList;
  * la voy a llamar colaOp y a la otra cola la voy a llamar colaProp.
  */
 
-public class ColaDoble<T extends Comparable<T>>{
+public class ColaDoble<Handle>{
     /* Cola de prioridad implementada sobre HEAP */
     private ArrayList<Handle> colaAntiguedad;
     private ArrayList<Handle> colaRedito;
     private int nelems; 
 
     public class Handle {
-        T value;
+        int value; // prioridad
         int index; // index en la otra cola
+        Traslado traslado;
 
-        public Handle(T value, int index) {
+        public Handle(int value, int index, Traslado traslado) {
             this.value = value;
             this.index = index;
+            this.traslado = traslado;
         }
 
-        public T getValue() {
+        public int getValue() {
             return value;
         }
     }
@@ -58,10 +60,10 @@ public class ColaDoble<T extends Comparable<T>>{
                 break;
             }
             int mayor = hijoIzq;
-            if(hijoDer < nelems && colaOp.get(hijoDer).value.compareTo(colaOp.get(hijoIzq).value) > 0){
+            if(hijoDer < nelems &&  colaOp.get(hijoDer).value>colaOp.get(hijoIzq).value){
                 mayor = hijoDer;
             }
-            if(colaOp.get(dedito).value.compareTo(colaOp.get(mayor).value) < 0){
+            if(colaOp.get(dedito).value < colaOp.get(mayor).value){
                 swap(colaOp, colaProp, dedito, mayor);
                 dedito = mayor;
             }else{
@@ -74,7 +76,7 @@ public class ColaDoble<T extends Comparable<T>>{
         int dedito = i;
         while(dedito > 0){
             int padre = (dedito-1)/2; // floor operation
-            if(colaOp.get(dedito).value.compareTo(colaOp.get(padre).value) > 0){
+            if(colaOp.get(dedito).value > colaOp.get(padre).value){
                 swap(colaOp, colaProp, dedito, padre);
                 dedito = padre;
             }else{
@@ -83,9 +85,9 @@ public class ColaDoble<T extends Comparable<T>>{
         }
     }
 
-    public void encolar(T valor_antiguedad, T valor_redito){
-        Handle handle_antiguedad = new Handle(valor_antiguedad, nelems);
-        Handle handle_redito = new Handle(valor_redito, nelems);
+    public void encolar(Traslado traslado){
+        Handle handle_antiguedad = new Handle(traslado.timestamp, nelems, traslado);
+        Handle handle_redito = new Handle(traslado.gananciaNeta, nelems, traslado);
         colaAntiguedad.add(handle_antiguedad);
         colaRedito.add(handle_redito);
         subir(colaAntiguedad, colaRedito, nelems);
@@ -93,7 +95,7 @@ public class ColaDoble<T extends Comparable<T>>{
         nelems++;
     }
 
-    public T desencolar(ArrayList<Handle> colaOp, ArrayList<Handle> colaProp){
+    public Traslado desencolar(ArrayList<Handle> colaOp, ArrayList<Handle> colaProp){
         if (nelems == 0){
             return null;
         }
@@ -108,10 +110,10 @@ public class ColaDoble<T extends Comparable<T>>{
                 break;
             }
             int mayor = hijoIzq;
-            if(hijoDer < nelems && colaOp.get(hijoDer).value.compareTo(colaOp.get(hijoIzq).value) > 0){
+            if(hijoDer < nelems && colaOp.get(hijoDer).value > colaOp.get(hijoIzq).value){
                 mayor = hijoDer;
             }
-            if(colaOp.get(dedito).value.compareTo(colaOp.get(mayor).value) < 0){
+            if(colaOp.get(dedito).value < colaOp.get(mayor).value){
                 swap(colaOp, colaProp, dedito, mayor);
                 dedito = mayor;
             }else{
@@ -121,14 +123,14 @@ public class ColaDoble<T extends Comparable<T>>{
         // borrar de la otra cola (colaProp) el elemento que saque de esta cola (colaOp)
         borrar_indice(colaProp, colaOp, res.index); 
         nelems--;
-        return res.value;
+        return res.traslado;
     }
 
-    public T desencolarAntiguedad(){
+    public Traslado desencolarAntiguedad(){
         return desencolar(colaAntiguedad, colaRedito);
     }
 
-    public T desencolarRedito(){
+    public Traslado desencolarRedito(){
         return desencolar(colaRedito, colaAntiguedad);
     }
 }
