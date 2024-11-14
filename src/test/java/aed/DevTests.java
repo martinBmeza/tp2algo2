@@ -12,11 +12,18 @@ import org.junit.jupiter.api.Test;
 public class DevTests {
 
     @Test
-    void crearCP(){
+    void crearColaPrioridad(){
         // CdeP
-        CdeP<Integer> Cola = new CdeP<Integer>();
+        ColaPrioridad<Integer> Cola = new ColaPrioridad<Integer>();
         assertNotNull(Cola);
         assertEquals(0, Cola.nelems());
+    }
+
+
+    @Test
+    void encolarDesencolar(){
+        // CdeP
+        ColaPrioridad<Integer> Cola = new ColaPrioridad<Integer>();
         Cola.encolar(1);
         Cola.encolar(3);
         Cola.encolar(2);
@@ -27,5 +34,8 @@ public class DevTests {
         assertEquals(1, Cola.desencolar());
         assertEquals(0, Cola.desencolar());
         assertEquals(0, Cola.nelems());
+        assertEquals(null, Cola.desencolar());
+
     }
+
 }
