@@ -1,60 +1,52 @@
 package aed;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class BestEffort {
-    //DobleColaOrdenada
-        //ordenadaPorAntiguedad
-        //odenadaPorRdituable
+    ColaDoble colaTraslados;
+    Stats stats;
 
-    //stats
-        //colaSuperavit
-        //arrayNodos para colaSuperavit
-        //cantidadDespachados
-        //sumaDespachados
-        //mayoresPerdidas : Array<int> 
-        //mayoresGanancias : Array<int>
-        //ganancias : Array<int> |C|
-        //peridas : Array<int> |C|
-    private Stats stats;
 
     public BestEffort(int cantCiudades, Traslado[] traslados){
-        //crear DobleCola
-        //crear Stats
+        colaTraslados = new ColaDoble(traslados); // O(T)
         stats = new Stats(cantCiudades);
     }
 
     public void registrarTraslados(Traslado[] traslados){
-        // for t en traslados
-            //dobleCola.encolar(t)
+        for (Traslado t : traslados){
+            colaTraslados.encolar(t);
+        }
     }
 
     public int[] despacharMasRedituables(int n){
-        //dobleCola.obtener(n, redituable)
-        //stats.actualizar
-        return null;
+        Traslado t = colaTraslados.desencolarRedito();
+
     }
 
     public int[] despacharMasAntiguos(int n){
-        // Implementa
+        // Implementar
         return null;
     }
 
     public int ciudadConMayorSuperavit(){
-        // stat.mayorSuperavit
+        // Implementar
         return 0;
     }
 
     public ArrayList<Integer> ciudadesConMayorGanancia(){
-        return stats.getCiudadesConMayorGanancias();
+        // Implementar
+        return null;
     }
 
     public ArrayList<Integer> ciudadesConMayorPerdida(){
-        return stats.getCiudadesConMayorPerdida();
+        // Implementar
+        return null;
     }
 
     public int gananciaPromedioPorTraslado(){
-        return stat.getPromedio();
+        // Implementar
+        return 0;
     }
     
 }

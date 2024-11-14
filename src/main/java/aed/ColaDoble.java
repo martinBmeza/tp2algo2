@@ -8,7 +8,7 @@ import java.util.ArrayList;
  * la voy a llamar colaOp y a la otra cola la voy a llamar colaProp.
  */
 
-public class ColaDoble<Handle>{
+public class ColaDoble{
     /* Cola de prioridad implementada sobre HEAP */
     private ArrayList<Handle> colaAntiguedad;
     private ArrayList<Handle> colaRedito;
@@ -35,6 +35,43 @@ public class ColaDoble<Handle>{
         colaRedito = new ArrayList<Handle>();
         nelems = 0;
     }
+
+    public ColaDoble(Traslado[] seq_traslados){
+        // cola desde secuencia (Alg de Floyd)
+        colaAntiguedad = new ArrayList<Handle>();
+        colaRedito = new ArrayList<Handle>();
+        nelems = 0;
+        for (Traslado t : seq_traslados){
+            colaAntiguedad.add(new Handle(t.timestamp, nelems, t));
+            colaRedito.add(new Handle(t.gananciaNeta, nelems, t));
+            nelems++;
+        }
+        for (int i = nelems/2 - 1; i >= 0; i--){
+            bajar(colaAntiguedad, colaRedito, i);
+            bajar(colaRedito, colaAntiguedad, i);
+        }
+    }
+
+    public void bajar(ArrayList<Handle> colaOp, ArrayList<Handle> colaProp, int i){
+        int masgrande = i;
+        int hijoIzq = 2*i + 1;
+        int hijoDer = 2*i + 2;
+        if (hijoIzq < nelems && colaOp.get(hijoIzq).value > colaOp.get(masgrande).value) {
+            masgrande = hijoIzq;
+        }
+
+        // Comprobar si el hijo derecho es mayor que el nodo más grande encontrado hasta ahora
+        if (hijoDer < nelems && colaOp.get(hijoDer).value > colaOp.get(masgrande).value) {
+            masgrande = hijoDer;
+        }
+
+        // Si el nodo actual no es el mayor, intercambiar con el mayor y continuar ajustando
+        if (masgrande != i) {
+            swap(colaOp, colaProp, i, masgrande);
+            bajar(colaOp, colaProp, masgrande); // Llamada recursiva para el nodo que fue intercambiado
+        }
+    }
+    
 
     public int nelems(){
         return nelems;

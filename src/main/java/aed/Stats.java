@@ -3,27 +3,26 @@ package aed;
 import java.util.ArrayList;
 
 public class Stats {
-    private ArrayList<Integer> mayoresGanancia; // id s de mayor ganancia
-    private ArrayList<Integer> mayoresPerdida; // id s de mayor perdida
-    private ArrayList<Integer> ganancias;
-    private ArrayList<Integer> perdidas;
-    private ColaPrioridad superavits;
-    private ArrayList<Nodo> nodosCiudades;
-    private Integer cantidadDespachados;
-    private Integer sumaDespachados;
-    
+    ArrayList<Integer> mayoresGanancia; // id s de mayor ganancia
+    ArrayList<Integer> mayoresPerdida; // id s de mayor perdida
+    ArrayList<Integer> ganancias;
+    ArrayList<Integer> perdidas;
+    ColaPrioridadCiudades superavits;
+    ArrayList<Ciudad> ciudades;
+    Integer cantidadDespachados;
+    Integer sumaDespachados;
 
-    public Stats(Integer C) {
-        this.mayoresGanancia = new ArrayList<>();
-        this.mayoresPerdida = new ArrayList<>();
-        this.ganancias = new ArrayList<>();
-        this.perdidas = new ArrayList<>();
-        for (int i = 0; i < C; i++) {
-            this.ganancias.add(0);
+    public Stats(Integer cantCiudades) {
+        mayoresGanancia = new ArrayList<>();
+        mayoresPerdida = new ArrayList<>();
+        ganancias = new ArrayList<>();
+        perdidas = new ArrayList<>();
+        for (int i = 0; i < cantCiudades; i++) {
+            ganancias.add(0);
             perdidas.add(0);
-            nodosCiudades.add(new Nodo(0))
+            ciudades.add(new Ciudad(i));
         }
-        superavits.colaPrioridadDesdeSecuencia(nodosCiudades);
+        superavits = new ColaPrioridadCiudades(ciudades);
     }
 
     private void actualizarMayores(ArrayList<Integer> lista, ArrayList<Integer> mayores, int id, int val) {

@@ -2,28 +2,64 @@ package aed;
 
 import java.util.ArrayList;
 
-public class ColaPrioridad<T extends Comparable<T>>{
+public class ColaPrioridadCiudades{
     /* Cola de prioridad implementada sobre HEAP */
     private ArrayList<Handle> cola;
+    private ArrayList<Integer> ciudades; //aca me guardo la relacion ciudad-posicion en el array
     private int nelems; 
 
     public class Handle {
-        T value;
+        Ciudad value;
         int index;
 
-        public Handle(T value, int index) {
+        public Handle(Ciudad value, int index) {
             this.value = value;
             this.index = index;
         }
 
-        public T getValue() {
-            return value;
+        public int getValue() {
+            return value.getID();
         }
     }
 
-    public ColaPrioridad(){
-        cola = new ArrayList<Handle>();
+    // public ColaPrioridadCiudades(int cantCiudades){
+    //     cola = new ArrayList<Handle>();
+    //     ciudades = new ArrayList<Integer>(cantCiudades);
+    //     nelems = 0;
+    // }
+
+    public ColaPrioridadCiudades(ArrayList<Ciudad> seq_ciudades){
         nelems = 0;
+        cola = new ArrayList<Handle>();
+        ciudades = new ArrayList<Integer>();
+        for (int i = 0; i < seq_ciudades.size(); i++){
+            cola.add(new Handle(seq_ciudades.get(i), i));
+            ciudades.add(i);
+            nelems++;
+        }
+        for (int i = nelems/2 - 1; i >= 0; i--){
+            bajar(i);
+        }
+    }
+
+    public void bajar(int i){
+        int masgrande = i;
+        int hijoIzq = 2*i + 1;
+        int hijoDer = 2*i + 2;
+        if (hijoIzq < nelems && cola.get(hijoIzq).value.compareTo(cola.get(masgrande).value)>0){
+            masgrande = hijoIzq;
+        }
+
+        // Comprobar si el hijo derecho es mayor que el nodo más grande encontrado hasta ahora
+        if (hijoDer < nelems && cola.get(hijoDer).value.compareTo(cola.get(masgrande).value) > 0) {
+            masgrande = hijoDer;
+        }
+
+        // Si el nodo actual no es el mayor, intercambiar con el mayor y continuar ajustando
+        if (masgrande != i) {
+            swap(i, masgrande);
+            bajar(masgrande); // Llamada recursiva para el nodo que fue intercambiado
+        }
     }
 
     public int nelems(){
@@ -31,14 +67,18 @@ public class ColaPrioridad<T extends Comparable<T>>{
     }
 
     private void swap(int i, int j){
-        Handle aux = cola.get(i); 
-        cola.set(i, cola.get(j));
-        cola.set(j, aux);
+        Handle aux_i = cola.get(i);
+        Handle aux_j = cola.get(j);
+        ciudades.set(aux_i.value.getID(), j);
+        ciudades.set(aux_j.value.getID(), i);
+        cola.set(i, aux_j);
+        cola.set(j, aux_i);
     }
     
-    public void encolar(T valor){
-        Handle handle = new Handle(valor, nelems);
+    public void encolar(Ciudad ciudad){
+        Handle handle = new Handle(ciudad, nelems);
         cola.add(handle);
+        ciudades.set(ciudad.getID(), nelems);
         int dedito = nelems;
         while(dedito > 0){
             int padre = (dedito-1)/2; // floor operation
@@ -51,7 +91,7 @@ public class ColaPrioridad<T extends Comparable<T>>{
         }
         nelems++;
     }
-    public T desencolar(){
+    public Ciudad desencolar(){
         if (nelems == 0){
             return null;
         }
@@ -81,6 +121,11 @@ public class ColaPrioridad<T extends Comparable<T>>{
 
     public Handle proximo(){
         return cola.get(0);
+    }
+
+    public void borrar_ciudad(Ciudad ciudad){
+        int i = ciudades.get(ciudad.getID());
+        borrar_indice(i);
     }
 
     public void borrar_indice(int i){
