@@ -18,7 +18,7 @@ public class BestEffort {
 
     public void registrarTraslados(Traslado[] traslados) {
         for (int i = 0; i < traslados.length; i++) {
-            this.traslados.encolar(traslados[0]);
+            this.traslados.encolar(traslados[i]);
         }
     }
 
