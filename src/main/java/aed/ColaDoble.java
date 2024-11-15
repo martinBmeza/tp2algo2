@@ -42,7 +42,7 @@ public class ColaDoble{
         colaRedito = new ArrayList<Handle>();
         nelems = 0;
         for (Traslado t : seq_traslados){
-            colaAntiguedad.add(new Handle(t.timestamp, nelems, t));
+            colaAntiguedad.add(new Handle(-t.timestamp, nelems, t));
             colaRedito.add(new Handle(t.gananciaNeta, nelems, t));
             nelems++;
         }
@@ -123,7 +123,7 @@ public class ColaDoble{
     }
 
     public void encolar(Traslado traslado){
-        Handle handle_antiguedad = new Handle(traslado.timestamp, nelems, traslado);
+        Handle handle_antiguedad = new Handle(-traslado.timestamp, nelems, traslado);
         Handle handle_redito = new Handle(traslado.gananciaNeta, nelems, traslado);
         colaAntiguedad.add(handle_antiguedad);
         colaRedito.add(handle_redito);

@@ -45,7 +45,7 @@ public class BestEffortTests {
     void despachar_con_mas_ganancia_de_a_uno(){
         BestEffort sis = new BestEffort(this.cantCiudades, this.listaTraslados);
 
-        sis.despacharMasRedituables(1);|
+        sis.despacharMasRedituables(1);
         
         assertSetEquals(new ArrayList<>(Arrays.asList(6)), sis.ciudadesConMayorGanancia());
         assertSetEquals(new ArrayList<>(Arrays.asList(3)), sis.ciudadesConMayorPerdida());
@@ -77,7 +77,7 @@ public class BestEffortTests {
     void despachar_mas_viejo_de_a_uno(){
         BestEffort sis = new BestEffort(this.cantCiudades, this.listaTraslados);
         
-        sis.despacharMasAntiguos(1);
+        assertEquals(1, sis.despacharMasAntiguos(1)[0]);
 
         assertSetEquals(new ArrayList<>(Arrays.asList(0)), sis.ciudadesConMayorGanancia());
         assertSetEquals(new ArrayList<>(Arrays.asList(1)), sis.ciudadesConMayorPerdida());
