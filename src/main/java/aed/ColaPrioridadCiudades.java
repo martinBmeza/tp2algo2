@@ -95,8 +95,12 @@ public class ColaPrioridadCiudades{
         if (nelems == 0){
             return null;
         }
+        if (nelems == 1){
+            nelems--;
+            return cola.remove(0).value;
+        }
         Handle salida = cola.get(0);
-        cola.set(0, cola.get(nelems-1));
+        cola.set(0, cola.remove(cola.size()-1)); // O(1)
         nelems--;
         int dedito = 0;
         while(dedito < nelems){
@@ -129,7 +133,16 @@ public class ColaPrioridadCiudades{
     }
 
     public void borrar_indice(int i){
-        cola.set(i, cola.get(nelems-1));
+        if (i == cola.size()-1){
+            cola.remove(cola.size()-1);
+            nelems--;
+            return;
+        }
+        //if (i >= cola.size()){
+        //    return;
+        //}
+
+        cola.set(i, cola.remove(cola.size()-1)); // O(1)
         nelems--;
         int dedito = i;
         while(dedito < nelems){

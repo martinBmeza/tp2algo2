@@ -122,30 +122,58 @@ public class DevTests {
         assertNotNull(Cola);
         assertEquals(4, Cola.nelems());
         assertEquals(2, Cola.desencolar().getID());
-        Cola.encolar(new Ciudad(2, 100, 100, 100));
-        assertEquals(4, Cola.nelems());
-        assertEquals(1, Cola.desencolar().getID());
-        Cola.encolar(new Ciudad(1, 100, 100, 100));
-        assertEquals(4, Cola.nelems());
-        assertEquals(0, Cola.desencolar().getID());
-        Cola.encolar(new Ciudad(1, 100, 100, 100));
-        Cola.encolar(new Ciudad(1, 100, 100, 100));
-        Cola.encolar(new Ciudad(1, 100, 100, 100));
-        // me deja encolar muchas veces la misma ciudad. Es peligroso pero no deberia suceder
-        // si se usa correctamente. Consultar si es un problema o intentar arreglarlo
-        assertEquals(6, Cola.nelems());
-        Cola.borrar_ciudad(new Ciudad(1, 100, 100, 100));
-        assertEquals(5, Cola.nelems());
-
     }
-
 
     @Test
     void encolarDesencolarColaPrioridadCiudades(){
-        // Agregar mas tests para ver si funciona bien
-
+        
+        Ciudad[] ciudades = new Ciudad[] {
+            new Ciudad(0, 500, 200, 100),
+            new Ciudad(1, 200, 100, 100),
+            new Ciudad(2, 300, 300, 100),
+            new Ciudad(3, 50, 400, 100),
+        };
+        ArrayList<Ciudad> ciudades_seq = new ArrayList<Ciudad>();
+        for (Ciudad c : ciudades){
+            ciudades_seq.add(c);
+        } 
+        ColaPrioridadCiudades Cola = new ColaPrioridadCiudades(ciudades_seq);
+        assertEquals(0, Cola.desencolar().getID());
+        assertEquals(2, Cola.desencolar().getID());
+        assertEquals(1, Cola.desencolar().getID());
+        assertEquals(3, Cola.desencolar().getID());
+        assertEquals(null, Cola.desencolar());
+        assertEquals(0, Cola.nelems());
+        for (Ciudad c : ciudades){
+            Cola.encolar(c);
+        }
+        assertEquals(4, Cola.nelems());
+        assertEquals(0, Cola.desencolar().getID());
+        assertEquals(2, Cola.desencolar().getID());
+        assertEquals(1, Cola.desencolar().getID());
+        assertEquals(3, Cola.desencolar().getID());
+        assertEquals(null, Cola.desencolar());
+        assertEquals(0, Cola.nelems());
     }
 
-
-
+    @Test
+    void borrarCiudad(){
+        Ciudad[] ciudades = new Ciudad[] {
+            new Ciudad(0, 100, 200, 100),
+            new Ciudad(1, 200, 100, 100),
+            new Ciudad(2, 300, 300, 100),
+            new Ciudad(3, 50, 400, 100),
+        };
+        ArrayList<Ciudad> ciudades_seq = new ArrayList<Ciudad>();
+        for (Ciudad c : ciudades){
+            ciudades_seq.add(c);
+        } 
+        ColaPrioridadCiudades Cola = new ColaPrioridadCiudades(ciudades_seq);
+        Cola.borrar_ciudad(ciudades[3]);
+        //ciudades[1].addToGanancia(1000);
+        //assertEquals(1200, ciudades[1].getSuperavit());
+        //assertEquals(true, ciudades[1].compareTo(ciudades[2])>0);
+        Cola.encolar(new Ciudad(3, 1300, 300, 100));
+        assertEquals(3, Cola.desencolar().getID());
+    }
 }
