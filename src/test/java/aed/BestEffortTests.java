@@ -45,7 +45,7 @@ public class BestEffortTests {
     void despachar_con_mas_ganancia_de_a_uno(){
         BestEffort sis = new BestEffort(this.cantCiudades, this.listaTraslados);
 
-        sis.despacharMasRedituables(1);
+        sis.despacharMasRedituables(1);|
         
         assertSetEquals(new ArrayList<>(Arrays.asList(6)), sis.ciudadesConMayorGanancia());
         assertSetEquals(new ArrayList<>(Arrays.asList(3)), sis.ciudadesConMayorPerdida());

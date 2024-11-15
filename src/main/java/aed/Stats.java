@@ -25,35 +25,36 @@ public class Stats {
 
     public void add(Traslado t) {
         //actualizar perdidas y ganancias
-        Integer idO = t.origen;;
-        ciudades.get(idO).addToGanancia(t.gananciaNeta);
-        Integer idD = t.destino;
-        ciudades.get(idD).addToPerdida(t.gananciaNeta);
-
-        
+        Integer idO = t.origen;
         int g = this.ciudades.get(idO).getGanancia();
+        g+=t.gananciaNeta;
+        Integer idD = t.destino;
+        int p = this.ciudades.get(idD).getPerdida();
+        p+= t.gananciaNeta;        
+        
         if(mayoresGanancia.isEmpty()){
             mayoresGanancia.add(idO);
         }
-        else if (mayoresGanancia.get(0) < g) {
+        else if (ciudades.get(mayoresGanancia.get(0)).getGanancia() < g) {
             mayoresGanancia.clear();
             mayoresGanancia.add(idO);
-        } else if (mayoresGanancia.get(0) == g) {
+        } else if (ciudades.get(mayoresGanancia.get(0)).getGanancia()  == g) {
             mayoresGanancia.add(idO);
         } // si es menor no hago nada
-
-        int p = this.ciudades.get(idD).getPerdida();
+        
         if(mayoresPerdida.isEmpty()){
             mayoresPerdida.add(idD);
         }
-        else if (mayoresPerdida.get(0) < p) {
+        else if (ciudades.get(mayoresPerdida.get(0)).getPerdida() < p) {
             mayoresPerdida.clear();
             mayoresPerdida.add(idD);
-        } else if (mayoresPerdida.get(0) == p) {
+        } else if (ciudades.get(mayoresPerdida.get(0)).getPerdida() == p) {
             mayoresPerdida.add(idD);
         } // si es menor no hago nada
-
-
+        
+        ciudades.get(idO).addToGanancia(t.gananciaNeta);
+        ciudades.get(idD).addToPerdida(t.gananciaNeta);
+        
         //actualizar superavits
         //sumar en origen
         Ciudad ciudadO = ciudades.get(t.origen);
