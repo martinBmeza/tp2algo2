@@ -82,12 +82,23 @@ public class ColaDoble{
         Handle aux_j = colaOp.get(j); 
         colaOp.set(i, aux_j);
         colaOp.set(j, aux_i);
+        if(aux_i.index>=colaProp.size()){
+            aux_i.index= colaProp.size()-1;
+        }
+        if(aux_j.index>=colaProp.size()){
+            aux_j.index = colaProp.size()-1;
+        }
         colaProp.get(aux_i.index).index = j;
         colaProp.get(aux_j.index).index = i;
     }
 
     public void borrar_indice(ArrayList<Handle> colaOp, ArrayList<Handle> colaProp, int i){
-        colaOp.set(i, colaOp.get(nelems-1));
+        // Ya le resté a nelems en desencolar; acá nelems = |colaOp| - 1
+        if(i>= colaOp.size()){
+            i= colaOp.size()-1;
+        }
+        colaOp.set(i, colaOp.get(nelems));
+        colaOp.remove(nelems);
         // bajar el elemento que puse en i
         int dedito = i;
         while(dedito < nelems){
@@ -137,7 +148,10 @@ public class ColaDoble{
             return null;
         }
         Handle res = colaOp.get(0);
+
         colaOp.set(0, colaOp.get(nelems-1));
+        colaOp.remove(nelems-1);
+        nelems--;
         // bajar lo que puse como raiz
         int dedito = 0;
         while(dedito < nelems){
@@ -159,7 +173,6 @@ public class ColaDoble{
         }
         // borrar de la otra cola (colaProp) el elemento que saque de esta cola (colaOp)
         borrar_indice(colaProp, colaOp, res.index); 
-        nelems--;
         return res.traslado;
     }
 
