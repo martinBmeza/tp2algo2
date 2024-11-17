@@ -23,8 +23,6 @@ public class BestEffort {
     }
 
     public int[] despacharMasRedituables(int n) {
-        // dobleCola.obtener(n, redituable)
-        // stats.actualizar
         int[] res = new int[n];
         for (int i = 0; i < n; i++) {
             Traslado t = this.traslados.desencolarRedito();

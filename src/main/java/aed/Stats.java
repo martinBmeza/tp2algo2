@@ -3,12 +3,12 @@ package aed;
 import java.util.ArrayList;
 
 public class Stats {
-    ArrayList<Integer> mayoresGanancia; // id s de mayor ganancia
-    ArrayList<Integer> mayoresPerdida; // id s de mayor perdida
-    ColaPrioridadCiudades superavits;
-    ArrayList<Ciudad> ciudades;
-    Integer cantidadDespachados;
-    Integer sumaDespachados;
+    private ArrayList<Integer> mayoresGanancia; // id s de mayor ganancia
+    private ArrayList<Integer> mayoresPerdida; // id s de mayor perdida
+    private ColaPrioridadCiudades superavits;
+    private ArrayList<Ciudad> ciudades;
+    private Integer cantidadDespachados;
+    private Integer sumaDespachados;
 
     public Stats(Integer cantCiudades) {
         cantidadDespachados = 0;

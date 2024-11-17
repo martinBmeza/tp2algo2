@@ -9,10 +9,8 @@ import java.util.ArrayList;
  */
 
 public class ColaDoble{
-    /* Cola de prioridad implementada sobre HEAP */
     private ArrayList<Handle> colaAntiguedad;
     private ArrayList<Handle> colaRedito;
-    private int nelems; 
 
     public class Handle {
         int value; // prioridad
@@ -25,6 +23,12 @@ public class ColaDoble{
             this.traslado = traslado;
         }
 
+        public Handle(Handle h){
+            this.value = h.value;
+            this.index = h.index;
+            this.traslado = h.traslado;
+        }
+
         public int getValue() {
             return value;
         }
@@ -33,14 +37,13 @@ public class ColaDoble{
     public ColaDoble(){
         colaAntiguedad = new ArrayList<Handle>();
         colaRedito = new ArrayList<Handle>();
-        nelems = 0;
     }
 
     public ColaDoble(Traslado[] seq_traslados){
         // cola desde secuencia (Alg de Floyd)
         colaAntiguedad = new ArrayList<Handle>();
         colaRedito = new ArrayList<Handle>();
-        nelems = 0;
+        int nelems = 0;
         for (Traslado t : seq_traslados){
             colaAntiguedad.add(new Handle(-t.timestamp, nelems, t));
             colaRedito.add(new Handle(t.gananciaNeta, nelems, t));
@@ -56,25 +59,16 @@ public class ColaDoble{
         int masgrande = i;
         int hijoIzq = 2*i + 1;
         int hijoDer = 2*i + 2;
-        if (hijoIzq < nelems && colaOp.get(hijoIzq).value > colaOp.get(masgrande).value) {
+        if (hijoIzq < colaOp.size() && colaOp.get(hijoIzq).value > colaOp.get(masgrande).value) {
             masgrande = hijoIzq;
         }
-
-        // Comprobar si el hijo derecho es mayor que el nodo más grande encontrado hasta ahora
-        if (hijoDer < nelems && colaOp.get(hijoDer).value > colaOp.get(masgrande).value) {
+        if (hijoDer < colaOp.size() && colaOp.get(hijoDer).value > colaOp.get(masgrande).value) {
             masgrande = hijoDer;
         }
-
-        // Si el nodo actual no es el mayor, intercambiar con el mayor y continuar ajustando
         if (masgrande != i) {
             swap(colaOp, colaProp, i, masgrande);
-            bajar(colaOp, colaProp, masgrande); // Llamada recursiva para el nodo que fue intercambiado
+            bajar(colaOp, colaProp, masgrande);
         }
-    }
-    
-
-    public int nelems(){
-        return nelems;
     }
 
     private void swap(ArrayList<Handle> colaOp, ArrayList<Handle> colaProp,  int i, int j){
@@ -93,31 +87,13 @@ public class ColaDoble{
     }
 
     public void borrar_indice(ArrayList<Handle> colaOp, ArrayList<Handle> colaProp, int i){
-        // Ya le resté a nelems en desencolar; acá nelems = |colaOp| - 1
-        if(i>= colaOp.size()){
-            i= colaOp.size()-1;
+        if (i >= colaOp.size()-1){
+            colaOp.remove(colaOp.size()-1);
+            return;
         }
-        colaOp.set(i, colaOp.get(nelems));
-        colaOp.remove(nelems);
+        colaOp.set(i, colaOp.remove(colaOp.size()-1));
         // bajar el elemento que puse en i
-        int dedito = i;
-        while(dedito < nelems){
-            int hijoIzq = 2*dedito + 1;
-            int hijoDer = 2*dedito + 2;
-            if(hijoIzq >= nelems){
-                break;
-            }
-            int mayor = hijoIzq;
-            if(hijoDer < nelems &&  colaOp.get(hijoDer).value>colaOp.get(hijoIzq).value){
-                mayor = hijoDer;
-            }
-            if(colaOp.get(dedito).value < colaOp.get(mayor).value){
-                swap(colaOp, colaProp, dedito, mayor);
-                dedito = mayor;
-            }else{
-                break;
-            }
-        }
+        bajar(colaOp, colaProp, i);
     }
 
     public void subir(ArrayList<Handle> colaOp, ArrayList<Handle> colaProp, int i){
@@ -134,44 +110,25 @@ public class ColaDoble{
     }
 
     public void encolar(Traslado traslado){
-        Handle handle_antiguedad = new Handle(-traslado.timestamp, nelems, traslado);
-        Handle handle_redito = new Handle(traslado.gananciaNeta, nelems, traslado);
+        Handle handle_antiguedad = new Handle(-traslado.timestamp, colaAntiguedad.size(), traslado);
+        Handle handle_redito = new Handle(traslado.gananciaNeta, colaRedito.size(), traslado);
         colaAntiguedad.add(handle_antiguedad);
         colaRedito.add(handle_redito);
-        subir(colaAntiguedad, colaRedito, nelems);
-        subir(colaRedito, colaAntiguedad, nelems);
-        nelems++;
+        subir(colaAntiguedad, colaRedito, colaAntiguedad.size()-1);
+        subir(colaRedito, colaAntiguedad, colaRedito.size()-1);
     }
 
     public Traslado desencolar(ArrayList<Handle> colaOp, ArrayList<Handle> colaProp){
-        if (nelems == 0){
+        if (colaOp.size() == 0){
             return null;
         }
-        Handle res = colaOp.get(0);
-
-        colaOp.set(0, colaOp.get(nelems-1));
-        colaOp.remove(nelems-1);
-        nelems--;
-        // bajar lo que puse como raiz
-        int dedito = 0;
-        while(dedito < nelems){
-            int hijoIzq = 2*dedito + 1;
-            int hijoDer = 2*dedito + 2;
-            if(hijoIzq >= nelems){
-                break;
-            }
-            int mayor = hijoIzq;
-            if(hijoDer < nelems && colaOp.get(hijoDer).value > colaOp.get(hijoIzq).value){
-                mayor = hijoDer;
-            }
-            if(colaOp.get(dedito).value < colaOp.get(mayor).value){
-                swap(colaOp, colaProp, dedito, mayor);
-                dedito = mayor;
-            }else{
-                break;
-            }
+        if (colaOp.size() == 1){
+            return colaOp.remove(0).traslado;
         }
-        // borrar de la otra cola (colaProp) el elemento que saque de esta cola (colaOp)
+        Handle res = new Handle(colaOp.get(0));
+        colaOp.set(0, colaOp.remove(colaOp.size()-1));
+        // bajar lo que puse como raiz
+        bajar(colaOp, colaProp, 0);
         borrar_indice(colaProp, colaOp, res.index); 
         return res.traslado;
     }

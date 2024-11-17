@@ -11,38 +11,10 @@ import org.junit.jupiter.api.Test;
 
 public class DevTests {
 
-    // @Test
-    // void crearColaPrioridad(){
-    //     // CdeP
-    //     ColaPrioridad<Integer> Cola = new ColaPrioridad<Integer>();
-    //     assertNotNull(Cola);
-    //     assertEquals(0, Cola.nelems());
-    // }
-
-
-    // @Test
-    // void encolarDesencolar(){
-    //     // CdeP
-    //     ColaPrioridad<Integer> Cola = new ColaPrioridad<Integer>();
-    //     Cola.encolar(1);
-    //     Cola.encolar(3);
-    //     Cola.encolar(2);
-    //     Cola.encolar(0);
-    //     assertEquals(4, Cola.nelems());
-    //     assertEquals(3, Cola.desencolar());
-    //     assertEquals(2, Cola.desencolar());
-    //     assertEquals(1, Cola.desencolar());
-    //     assertEquals(0, Cola.desencolar());
-    //     assertEquals(0, Cola.nelems());
-    //     assertEquals(null, Cola.desencolar());
-
-    // }
-
     @Test
     void crearColaDoble(){
         ColaDoble Cola = new ColaDoble();
         assertNotNull(Cola);
-        assertEquals(0, Cola.nelems());
     }
 
     @Test
@@ -56,10 +28,11 @@ public class DevTests {
         };
         ColaDoble Cola = new ColaDoble(traslados);
         assertNotNull(Cola);
-        assertEquals(5, Cola.nelems());
-        assertEquals(5, Cola.desencolarAntiguedad().timestamp);
-        assertEquals(9000, Cola.desencolarRedito().gananciaNeta);
-        assertEquals(3, Cola.nelems());
+        assertEquals(1, Cola.desencolarAntiguedad().timestamp);
+        assertEquals(1452, Cola.desencolarRedito().gananciaNeta);
+        assertEquals(334, Cola.desencolarRedito().gananciaNeta);
+        assertEquals(333, Cola.desencolarRedito().gananciaNeta);
+
     }
 
     @Test
@@ -76,10 +49,12 @@ public class DevTests {
         for (Traslado t : nuevos){
             Cola.encolar(t);
         }
-        assertEquals(5, Cola.nelems());
-        assertEquals(5, Cola.desencolarAntiguedad().timestamp);
-        assertEquals(9000, Cola.desencolarRedito().gananciaNeta);
-        assertEquals(3, Cola.nelems());   
+        assertNotNull(Cola);
+        assertEquals(1, Cola.desencolarAntiguedad().timestamp);
+        assertEquals(1452, Cola.desencolarRedito().gananciaNeta);
+        assertEquals(334, Cola.desencolarRedito().gananciaNeta);
+        assertEquals(333, Cola.desencolarRedito().gananciaNeta);
+
     }
 
     @Test
@@ -96,12 +71,8 @@ public class DevTests {
         } 
         ColaPrioridadCiudades Cola = new ColaPrioridadCiudades(ciudades_seq);
         assertNotNull(Cola);
-        assertEquals(4, Cola.nelems());
         assertEquals(2, Cola.proximo().value.getID());
         Cola.borrar_ciudad(ciudades[3]);
-        //ciudades[1].addToGanancia(1000);
-        //assertEquals(1200, ciudades[1].getSuperavit());
-        //assertEquals(true, ciudades[1].compareTo(ciudades[2])>0);
         Cola.encolar(new Ciudad(3, 1300, 300, 100));
         assertEquals(3, Cola.desencolar().getID());
     }
@@ -120,7 +91,6 @@ public class DevTests {
         } 
         ColaPrioridadCiudades Cola = new ColaPrioridadCiudades(ciudades_seq);
         assertNotNull(Cola);
-        assertEquals(4, Cola.nelems());
         assertEquals(2, Cola.desencolar().getID());
     }
 
@@ -143,17 +113,14 @@ public class DevTests {
         assertEquals(1, Cola.desencolar().getID());
         assertEquals(3, Cola.desencolar().getID());
         assertEquals(null, Cola.desencolar());
-        assertEquals(0, Cola.nelems());
         for (Ciudad c : ciudades){
             Cola.encolar(c);
         }
-        assertEquals(4, Cola.nelems());
         assertEquals(0, Cola.desencolar().getID());
         assertEquals(2, Cola.desencolar().getID());
         assertEquals(1, Cola.desencolar().getID());
         assertEquals(3, Cola.desencolar().getID());
         assertEquals(null, Cola.desencolar());
-        assertEquals(0, Cola.nelems());
     }
 
     @Test
@@ -170,9 +137,6 @@ public class DevTests {
         } 
         ColaPrioridadCiudades Cola = new ColaPrioridadCiudades(ciudades_seq);
         Cola.borrar_ciudad(ciudades[3]);
-        //ciudades[1].addToGanancia(1000);
-        //assertEquals(1200, ciudades[1].getSuperavit());
-        //assertEquals(true, ciudades[1].compareTo(ciudades[2])>0);
         Cola.encolar(new Ciudad(3, 1300, 300, 100));
         assertEquals(3, Cola.desencolar().getID());
     }

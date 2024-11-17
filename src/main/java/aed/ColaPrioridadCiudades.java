@@ -6,7 +6,6 @@ public class ColaPrioridadCiudades{
     /* Cola de prioridad implementada sobre HEAP */
     private ArrayList<Handle> cola;
     private ArrayList<Integer> ciudades; //aca me guardo la relacion ciudad-posicion en el array
-    private int nelems; 
 
     public class Handle {
         Ciudad value;
@@ -22,48 +21,32 @@ public class ColaPrioridadCiudades{
         }
     }
 
-    // public ColaPrioridadCiudades(int cantCiudades){
-    //     cola = new ArrayList<Handle>();
-    //     ciudades = new ArrayList<Integer>(cantCiudades);
-    //     nelems = 0;
-    // }
-
     public ColaPrioridadCiudades(ArrayList<Ciudad> seq_ciudades){
-        nelems = 0;
         cola = new ArrayList<Handle>();
         ciudades = new ArrayList<Integer>();
         for (int i = 0; i < seq_ciudades.size(); i++){
             cola.add(new Handle(seq_ciudades.get(i), i));
             ciudades.add(i);
-            nelems++;
         }
-        for (int i = nelems/2 - 1; i >= 0; i--){
+        for (int i = cola.size()/2 - 1; i >= 0; i--){
             bajar(i);
         }
     }
 
-    public void bajar(int i){
+    private void bajar(int i){
         int masgrande = i;
         int hijoIzq = 2*i + 1;
         int hijoDer = 2*i + 2;
-        if (hijoIzq < nelems && cola.get(hijoIzq).value.compareTo(cola.get(masgrande).value)>0){
+        if (hijoIzq < cola.size() && cola.get(hijoIzq).value.compareTo(cola.get(masgrande).value)>0){
             masgrande = hijoIzq;
         }
-
-        // Comprobar si el hijo derecho es mayor que el nodo más grande encontrado hasta ahora
-        if (hijoDer < nelems && cola.get(hijoDer).value.compareTo(cola.get(masgrande).value) > 0) {
+        if (hijoDer < cola.size() && cola.get(hijoDer).value.compareTo(cola.get(masgrande).value) > 0) {
             masgrande = hijoDer;
-        }
-
-        // Si el nodo actual no es el mayor, intercambiar con el mayor y continuar ajustando
+        }   
         if (masgrande != i) {
             swap(i, masgrande);
-            bajar(masgrande); // Llamada recursiva para el nodo que fue intercambiado
+            bajar(masgrande); 
         }
-    }
-
-    public int nelems(){
-        return nelems;
     }
 
     private void swap(int i, int j){
@@ -76,10 +59,11 @@ public class ColaPrioridadCiudades{
     }
     
     public void encolar(Ciudad ciudad){
-        Handle handle = new Handle(ciudad, nelems);
+        Handle handle = new Handle(ciudad, cola.size());
         cola.add(handle);
-        ciudades.set(ciudad.getID(), nelems);
-        int dedito = nelems;
+        ciudades.set(ciudad.getID(), cola.size()-1);
+        // subir
+        int dedito = cola.size()-1;
         while(dedito > 0){
             int padre = (dedito-1)/2; // floor operation
             if(cola.get(dedito).value.compareTo(cola.get(padre).value) > 0){
@@ -89,37 +73,19 @@ public class ColaPrioridadCiudades{
                 break;
             }
         }
-        nelems++;
     }
+
+
     public Ciudad desencolar(){
-        if (nelems == 0){
+        if (cola.size() == 0){
             return null;
         }
-        if (nelems == 1){
-            nelems--;
+        if (cola.size() == 1){
             return cola.remove(0).value;
         }
         Handle salida = cola.get(0);
-        cola.set(0, cola.remove(cola.size()-1)); // O(1)
-        nelems--;
-        int dedito = 0;
-        while(dedito < nelems){
-            int hijoIzq = 2*dedito + 1;
-            int hijoDer = 2*dedito + 2;
-            if(hijoIzq >= nelems){
-                break;
-            }
-            int mayor = hijoIzq;
-            if(hijoDer < nelems && cola.get(hijoDer).value.compareTo(cola.get(hijoIzq).value) > 0){
-                mayor = hijoDer;
-            }
-            if(cola.get(dedito).value.compareTo(cola.get(mayor).value) < 0){
-                swap(dedito, mayor);
-                dedito = mayor;
-            }else{
-                break;
-            }
-        }
+        cola.set(0, cola.remove(cola.size()-1));
+        bajar(0);
         return salida.value;
     }
 
@@ -132,35 +98,12 @@ public class ColaPrioridadCiudades{
         borrar_indice(i);
     }
 
-    public void borrar_indice(int i){
+    private void borrar_indice(int i){
         if (i == cola.size()-1){
             cola.remove(cola.size()-1);
-            nelems--;
             return;
         }
-        //if (i >= cola.size()){
-        //    return;
-        //}
-
-        cola.set(i, cola.remove(cola.size()-1)); // O(1)
-        nelems--;
-        int dedito = i;
-        while(dedito < nelems){
-            int hijoIzq = 2*dedito + 1;
-            int hijoDer = 2*dedito + 2;
-            if(hijoIzq >= nelems){
-                break;
-            }
-            int mayor = hijoIzq;
-            if(hijoDer < nelems && cola.get(hijoDer).value.compareTo(cola.get(hijoIzq).value) > 0){
-                mayor = hijoDer;
-            }
-            if(cola.get(dedito).value.compareTo(cola.get(mayor).value) < 0){
-                swap(dedito, mayor);
-                dedito = mayor;
-            }else{
-                break;
-            }
-        }
+        cola.set(i, cola.remove(cola.size()-1));
+        bajar(i);
     }
 }
