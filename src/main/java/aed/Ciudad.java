@@ -7,7 +7,7 @@ public class Ciudad implements Comparable<Ciudad> {
     private int ganancia;
     private int perdida;
 
-    public Ciudad(int id) {
+    public Ciudad(int id) {//O(1)
         this.id = id;
         this.superavit = 0;
         this.ganancia = 0;
@@ -15,43 +15,43 @@ public class Ciudad implements Comparable<Ciudad> {
     }
 
     //debug
-    public Ciudad(int id, int superavit, int ganancia, int perdida) {
+    public Ciudad(int id, int superavit, int ganancia, int perdida) {//O(1)
         this.id = id;
         this.superavit = superavit;
         this.ganancia = ganancia;
         this.perdida = perdida;
     }
 
-    public int getID() {
+    public int getID() {//O(1)
         return id;
     }
 
-    public int getGanancia(){
+    public int getGanancia(){//O(1)
         return ganancia;
     }
 
-    public int getPerdida(){
+    public int getPerdida(){//O(1)
         return perdida;
     }
     public int getSuperavit(){
-        return superavit;
+        return superavit;//O(1)
     }
 
-    public void addToGanancia(int v){
-        ganancia+=v;
-        superavit+=v;
+    public void addToGanancia(int v){//O(1)
+        ganancia+=v;//O(1)
+        superavit+=v;//O(1)
     }
 
-    public void addToPerdida(int v){
+    public void addToPerdida(int v){//O(1)
         perdida+=v;
         superavit-=v;
     }
 
     @Override
-    public int compareTo(Ciudad otra) {
+    public int compareTo(Ciudad otra) { //O(1)
         int res = Integer.compare(this.superavit, otra.superavit);
         if (res == 0) {
-            res = -Integer.compare(this.id, otra.id); // chequear este signo!
+            res = -Integer.compare(this.id, otra.id); 
         }
         return res;
     }

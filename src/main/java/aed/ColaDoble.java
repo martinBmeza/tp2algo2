@@ -17,29 +17,29 @@ public class ColaDoble{
         int index; // index en la otra cola
         Traslado traslado;
 
-        public Handle(int value, int index, Traslado traslado) {
+        public Handle(int value, int index, Traslado traslado) {//O(1)
             this.value = value;
             this.index = index;
             this.traslado = traslado;
         }
 
-        public Handle(Handle h){
+        public Handle(Handle h){//O(1)
             this.value = h.value;
             this.index = h.index;
             this.traslado = h.traslado;
         }
 
-        public int getValue() {
+        public int getValue() {//O(1)
             return value;
         }
     }
 
-    public ColaDoble(){
+    public ColaDoble(){//O(1)
         colaAntiguedad = new ArrayList<Handle>();
         colaRedito = new ArrayList<Handle>();
     }
 
-    public ColaDoble(Traslado[] seq_traslados){
+    public ColaDoble(Traslado[] seq_traslados){//O(|seq_traslado|)
         // cola desde secuencia (Alg de Floyd)
         colaAntiguedad = new ArrayList<Handle>();
         colaRedito = new ArrayList<Handle>();
@@ -71,7 +71,7 @@ public class ColaDoble{
         }
     }
 
-    private void swap(ArrayList<Handle> colaOp, ArrayList<Handle> colaProp,  int i, int j){
+    private void swap(ArrayList<Handle> colaOp, ArrayList<Handle> colaProp,  int i, int j){ //O(1)
         Handle aux_i = colaOp.get(i);
         Handle aux_j = colaOp.get(j); 
         colaOp.set(i, aux_j);
@@ -109,7 +109,7 @@ public class ColaDoble{
         }
     }
 
-    public void encolar(Traslado traslado){
+    public void encolar(Traslado traslado){//O(log|T|)
         Handle handle_antiguedad = new Handle(-traslado.timestamp, colaAntiguedad.size(), traslado);
         Handle handle_redito = new Handle(traslado.gananciaNeta, colaRedito.size(), traslado);
         colaAntiguedad.add(handle_antiguedad);
@@ -118,7 +118,7 @@ public class ColaDoble{
         subir(colaRedito, colaAntiguedad, colaRedito.size()-1);
     }
 
-    public Traslado desencolar(ArrayList<Handle> colaOp, ArrayList<Handle> colaProp){
+    public Traslado desencolar(ArrayList<Handle> colaOp, ArrayList<Handle> colaProp){//O(log|T|)
         if (colaOp.size() == 0){
             return null;
         }
@@ -133,11 +133,11 @@ public class ColaDoble{
         return res.traslado;
     }
 
-    public Traslado desencolarAntiguedad(){
+    public Traslado desencolarAntiguedad(){//O(log|T|)
         return desencolar(colaAntiguedad, colaRedito);
     }
 
-    public Traslado desencolarRedito(){
+    public Traslado desencolarRedito(){//O(log|T|)
         return desencolar(colaRedito, colaAntiguedad);
     }
 }
